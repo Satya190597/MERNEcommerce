@@ -1,1 +1,2 @@
 # MERNEcommerce
+MERN Stack.
