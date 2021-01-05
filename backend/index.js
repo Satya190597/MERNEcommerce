@@ -1,10 +1,27 @@
+// Import environemntal variable.
 require("dotenv").config();
+
+// Imports express, mongoose, body-parser, cookie-parser & cors.
 const express = require("express");
 const mongoose = require("mongoose");
-const user = require("./models/user");
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
 
+// Import Routes.
+const authRoute = require("./routes/auth");
+
+// Middlewares.
 const app = express();
+app.use(bodyParser.json());
+app.use(cookieParser());
+app.use(cors());
 
+// Routes.
+app.use("/api",authRoute);
+
+
+// Database Connection.
 mongoose
   .connect(process.env.DATABASE, {
     useNewUrlParser: true,
@@ -13,10 +30,10 @@ mongoose
   })
   .then(() => {
     console.log("DB CONNECTED ..");
-  }).catch(() => {
-      console.log("UNABLE TO CONNECT TO DB ..")
   })
-
+  .catch(() => {
+    console.log("UNABLE TO CONNECT TO DB ..");
+  });
 
 const port = 3000;
 

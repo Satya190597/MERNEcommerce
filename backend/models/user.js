@@ -42,7 +42,9 @@ const userSchema = new Schema(
       default: [],
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
 userSchema
@@ -56,7 +58,7 @@ userSchema
     return this._password;
   });
 
-userSchema.method = {
+userSchema.methods = {
   authenticate: function (plainPassword) {
     return this.getSecurePassword(plainPassword) === this.encryp_password;
   },
