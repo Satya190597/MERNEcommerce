@@ -1,4 +1,4 @@
-// Import environemntal variable.
+// Import environmental variable.
 require("dotenv").config();
 
 // Imports express, mongoose, body-parser, cookie-parser & cors.
@@ -11,7 +11,7 @@ const cors = require("cors");
 // Import Routes.
 const authRoute = require("./routes/auth");
 
-// Middlewares.
+// Middleware.
 const app = express();
 app.use(bodyParser.json());
 app.use(cookieParser());

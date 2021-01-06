@@ -12,7 +12,7 @@ const router = express.Router();
 
 /**
  * Signup Route.
- * Name,Email And Password Validation.
+ * Route Validation - Name,Email And Password.
  */
 router.post(
   "/signup",
@@ -35,6 +35,19 @@ router.post(
     }),
   ],
   userController.signup
+);
+
+/**
+ * Signin Route.
+ * Route Validation - Email and Password.
+ */
+router.post(
+  "/signin",
+  [
+    check("email", "Email Is Required").not().isEmpty(),
+    check("password", "Password Filed Is Required.").not().isEmpty(),
+  ],
+  userController.signIn
 );
 
 module.exports = router;
