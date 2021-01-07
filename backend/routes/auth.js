@@ -6,13 +6,13 @@ const { check } = require("express-validator");
 const User = require("../models/user");
 
 // Controller Imports.
-const userController = require("../controller/auth");
+const {signIn,signOut,signUp,isAdmin,isAuthenticated,isSignedIn} = require("../controller/auth");
 
 const router = express.Router();
 
 /**
  * Signup Route.
- * Route Validation - Name,Email And Password.
+ * Name,Email And Password Validation.
  */
 router.post(
   "/signup",
@@ -34,12 +34,12 @@ router.post(
       min: 3,
     }),
   ],
-  userController.signup
+  signUp
 );
 
 /**
  * Signin Route.
- * Route Validation - Email and Password.
+ * Route validation - email and password.
  */
 router.post(
   "/signin",
@@ -47,7 +47,27 @@ router.post(
     check("email", "Email Is Required").not().isEmpty(),
     check("password", "Password Filed Is Required.").not().isEmpty(),
   ],
-  userController.signIn
+  signIn
+);
+
+/**
+ * SignOut Route.
+ */
+router.get("/signout", signOut);
+
+/**
+ * TEST ROUTE
+ */
+router.post(
+  "/test",
+  isSignedIn,
+  isAuthenticated,
+  isAdmin,
+  (request, response) => {
+    response.json({
+      message: "PROTECTED ROUTE",
+    });
+  }
 );
 
 module.exports = router;

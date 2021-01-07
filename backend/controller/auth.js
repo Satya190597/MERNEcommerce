@@ -1,6 +1,7 @@
 // Library Imports
 const { validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
+const expressJWT = require("express-jwt");
 
 // Model Imports.
 const User = require("../models/user");
@@ -8,7 +9,7 @@ const User = require("../models/user");
 /**
  * User Signup Method.
  */
-exports.signup = (request, response) => {
+exports.signUp = (request, response) => {
   // Check for request validation results, setup by express-validator.
   const error = validationResult(request);
   if (!error.isEmpty()) {
@@ -62,20 +63,29 @@ exports.signIn = (request, response) => {
     }
 
     // Create a token.
-    const token = jwt.sign({userId: user._id},process.env.TOKEN_SECRET);
-
+    const token = jwt.sign({ userId: user._id }, process.env.TOKEN_SECRET);
 
     // Destructuring user data.
-    const {_id,email,userinfo,name} = user;
+    const { _id, email, userinfo, name } = user;
 
     // Set token to response cookie.
-    response.cookie("token",token,{ expire: new Date() + 9999 })
+    response.cookie("token", token, { expire: new Date() + 9999 });
 
     // Send Response.
     response.json({
       token: token,
-      data: {_id,email,userinfo,name}
+      data: { _id, email, userinfo, name },
     });
+  });
+};
+
+/**
+ * User SignOut Route.
+ */
+exports.signOut = (request, response) => {
+  response.clearCookie("token");
+  response.json({
+    message: "User SignOut Successfully.",
   });
 };
 
@@ -88,3 +98,40 @@ function getErrors(errors) {
     return { msg, param };
   });
 }
+
+/**
+ * Is SignedIn Middleware.
+ */
+exports.isSignedIn = expressJWT({
+  secret: process.env.TOKEN_SECRET,
+  userProperty: "auth",
+  algorithms: ["HS256"],
+});
+
+/**
+ * Is Authenticated Middleware.
+ */
+exports.isAuthenticated = (request, response, next) => {
+  const isAuthenticated =
+    request.body.userinfo &&
+    request.auth &&
+    request.body.userinfo._id === request.auth.userId;
+  if (!isAuthenticated) {
+    return response.status(403).json({
+      message: "ACCESS DENIED",
+    });
+  }
+  next();
+};
+
+/**
+ * Is Admin Middleware.
+ */
+exports.isAdmin = (request, response, next) => {
+  if (request.body.userinfo.role === 0) {
+    return response.status(403).json({
+      message: "UNAUTHORIZED TO ACCESS ADMIN ROUTE",
+    });
+  }
+  next();
+};
