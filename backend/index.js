@@ -11,6 +11,7 @@ const cors = require("cors");
 // Import Routes.
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
+const categoryRoutes = require("./routes/category");
 
 // Middleware.
 const app = express();
@@ -21,6 +22,7 @@ app.use(cors());
 // Routes.
 app.use("/api",authRoutes);
 app.use("/api",userRoutes);
+app.use("/api",categoryRoutes);
 
 
 // Database Connection.
