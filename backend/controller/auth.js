@@ -113,9 +113,9 @@ exports.isSignedIn = expressJWT({
  */
 exports.isAuthenticated = (request, response, next) => {
   const isAuthenticated =
-    request.body.userinfo &&
+    request.profile &&
     request.auth &&
-    request.body.userinfo._id === request.auth.userId;
+    request.profile._id == request.auth.userId;
   if (!isAuthenticated) {
     return response.status(403).json({
       message: "ACCESS DENIED",

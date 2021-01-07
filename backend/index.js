@@ -9,7 +9,8 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 
 // Import Routes.
-const authRoute = require("./routes/auth");
+const authRoutes = require("./routes/auth");
+const userRoutes = require("./routes/user");
 
 // Middleware.
 const app = express();
@@ -18,7 +19,8 @@ app.use(cookieParser());
 app.use(cors());
 
 // Routes.
-app.use("/api",authRoute);
+app.use("/api",authRoutes);
+app.use("/api",userRoutes);
 
 
 // Database Connection.
