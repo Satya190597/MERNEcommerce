@@ -35,14 +35,14 @@ exports.createCategory = (request, response) => {
 /**
  * Get All Category Method
  */
-exports.getAllCategory = () => {
+exports.getAllCategory = (request,response) => {
   Category.find().exec((error, categories) => {
     if (error) {
       return response.status(500).json({
         message: "UNABLE TO GET CATEGORY",
       });
     }
-    response.json(categories);
+    return response.json(categories);
   });
 };
 
@@ -50,7 +50,7 @@ exports.getAllCategory = () => {
  * Get A Single Category.
  */
 exports.getCategory = (request, response) => {
-  request.json(request.category);
+  response.json(request.category);
 };
 
 /**
@@ -60,7 +60,7 @@ exports.updateCategory = (request, response) => {
   Category.findByIdAndUpdate(
     { _id: request.category._id },
     { $set: request.body },
-    { new: true },
+    { new: true, useFindAndModify:false },
     (error, category) => {
       if (error) {
         return response.status(500).json({
@@ -84,7 +84,8 @@ exports.removeCategory = (request, response) => {
       });
     }
     response.json({
-      message: `${category} CATEGORY GETS DELETED`,
+      removedCategory: category,
+      message: "CATEGORY GETS DELETED",
     });
   });
 };

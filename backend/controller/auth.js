@@ -128,7 +128,7 @@ exports.isAuthenticated = (request, response, next) => {
  * Is Admin Middleware.
  */
 exports.isAdmin = (request, response, next) => {
-  if (request.body.userinfo.role === 0) {
+  if (request.profile.role === 0) {
     return response.status(403).json({
       message: "UNAUTHORIZED TO ACCESS ADMIN ROUTE",
     });
