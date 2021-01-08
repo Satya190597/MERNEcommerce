@@ -16,7 +16,7 @@ const productSchema = new mongoose.Schema(
       maxlength: 350,
     },
     price: {
-      type: number,
+      type: Number,
       required: true,
       maxlength: 32,
       trim: true,
@@ -29,6 +29,10 @@ const productSchema = new mongoose.Schema(
     stock: {
       type: Number,
       default: 0,
+    },
+    sold: {
+      type: Number,
+      default: 0
     },
     photo: {
       data: Buffer,
