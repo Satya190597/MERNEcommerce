@@ -45,7 +45,7 @@ mongoose
     console.log("UNABLE TO CONNECT TO DB ..");
   });
 
-const port = 3000;
+const port = 4000;
 
 app.get("/", (request, response) => {
   response.send("Hello World!");
