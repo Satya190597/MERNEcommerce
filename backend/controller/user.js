@@ -1,30 +1,33 @@
+// Import Models.
 const User = require("../models/user");
 const {Order} = require("../models/order");
+
+// Import utils.
+const {BadRequest} = require("../utils/errors");
 
 /**
  * Get user by id param middleware.
  */
 exports.getUserById = (request, response, next, id) => {
-  // Find user by id.
-  User.findById(id).exec((error, user) => {
-    if (error || !user) {
-      return response.status(400).json({
-        error: "No User Found",
-      });
-    }
-    // Create a request property and attach user data.
-    request.profile = user;
-
-    // Remove salt and password from request profile for security.
-    request.profile.salt = undefined;
-    request.profile.encryp_password = undefined;
-    request.profile.createdAt = undefined;
-    request.profile.updatedAt = undefined;
-    next();
-  });
+    User.findById(id).exec((error, user) => {
+      if (error || !user) {
+        let error = new BadRequest("Invalid User Id.");
+        return next(error);
+      }
+      // Create a request property and attach user data.
+      request.profile = user;
+  
+      // Remove salt and password from request profile for security.
+      request.profile.salt = undefined;
+      request.profile.encryp_password = undefined;
+      request.profile.createdAt = undefined;
+      request.profile.updatedAt = undefined;
+      next();
+    });
 };
 
 exports.getUser = (request, response) => {
+  console.log("INSIDE GET USER !")
   return response.json(request.profile);
 };
 

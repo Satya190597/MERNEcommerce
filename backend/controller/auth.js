@@ -112,6 +112,7 @@ exports.isSignedIn = expressJWT({
  * Is Authenticated Middleware.
  */
 exports.isAuthenticated = (request, response, next) => {
+  console.log("INSIDE IS AUTHENTICATED")
   const isAuthenticated =
     request.profile &&
     request.auth &&
