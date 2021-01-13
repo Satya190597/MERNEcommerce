@@ -1,30 +1,31 @@
-// Library Imports
+// Import Libraries.
 const { validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 const expressJWT = require("express-jwt");
 
-// Model Imports.
+// Import utility methods.
+const { BadRequest, ForbiddenError } = require("../utils/errors");
+
+// Import Models.
 const User = require("../models/user");
 
 /**
  * User Signup Method.
  */
-exports.signUp = (request, response) => {
+exports.signUp = (request, response, next) => {
   // Check for request validation results, setup by express-validator.
-  const error = validationResult(request);
+  let error = validationResult(request);
   if (!error.isEmpty()) {
-    // 422 Un-processable Entity.
-    return response.status(422).json({ error: getErrors(error.errors) });
+    error = new BadRequest(getErrors(error.errors));
+    return next(error);
   }
 
   // Save user data in DB.
   const user = new User(request.body);
   user.save((error, data) => {
     if (error) {
-      // 500 Internal Server Error.
-      return response
-        .status(500)
-        .json({ error: "Unable to save data in the DB." });
+      error = new BadRequest("Unable To Save User Info Into DB.");
+      return next(error);
     }
     response.json({
       name: data.name,
@@ -42,24 +43,22 @@ exports.signIn = (request, response) => {
   const { email, password } = request.body;
 
   // Check for request validation results, setup by express-validator.
-  const error = validationResult(request);
+  let error = validationResult(request);
   if (!error.isEmpty()) {
-    return response.json({
-      error: getErrors(error.errors),
-    });
+    error = new BadRequest(getErrors(error));
+    return next(error);
   }
 
   // Find User By Email.
   User.findOne({ email: email }, (error, user) => {
     // If user is not present.
     if (!user || error !== null) {
-      // 500 Internal Server Error.
-      return response.status(500).json({ error: "Unable to get user data." });
+      return response.status(200).json({ error: "Unable to get user data." });
     }
 
     // Is user is unauthenticated.
     if (!user.authenticate(password)) {
-      return response.status(401).json({ error: "Invalid Email Or Password" });
+      return response.status(200).json({ error: "Invalid Email Or Password" });
     }
 
     // Create a token.
@@ -112,15 +111,13 @@ exports.isSignedIn = expressJWT({
  * Is Authenticated Middleware.
  */
 exports.isAuthenticated = (request, response, next) => {
-  console.log("INSIDE IS AUTHENTICATED")
   const isAuthenticated =
     request.profile &&
     request.auth &&
     request.profile._id == request.auth.userId;
   if (!isAuthenticated) {
-    return response.status(403).json({
-      message: "ACCESS DENIED",
-    });
+    let error = new ForbiddenError("Unauthorized Request.");
+    return next(error);
   }
   next();
 };
@@ -130,9 +127,8 @@ exports.isAuthenticated = (request, response, next) => {
  */
 exports.isAdmin = (request, response, next) => {
   if (request.profile.role === 0) {
-    return response.status(403).json({
-      message: "UNAUTHORIZED TO ACCESS ADMIN ROUTE",
-    });
+    let error = new ForbiddenError("Unauthorized Request.");
+    return next(error);
   }
   next();
 };

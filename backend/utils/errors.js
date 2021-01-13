@@ -4,14 +4,14 @@
  * utility function.
  */
 class CustomErrorHandler extends Error {
-  constructor(message) {
+  constructor(errors) {
     /**
      * By calling the super() method in the constructor method,
      * we call the parent's constructor
      * method and gets access to the parent's properties and methods.
      */
     super();
-    this.message = message;
+    this.errors = errors;
   }
 
   getCode() {
@@ -19,7 +19,10 @@ class CustomErrorHandler extends Error {
       return 400;
     } else if (this instanceof PageNotFound) {
       return 404;
-    } else {
+    } else if(this instanceof ForbiddenError) {
+      return 403;
+    } 
+    else {
       return 500;
     }
   }
@@ -27,6 +30,7 @@ class CustomErrorHandler extends Error {
 
 class BadRequest extends CustomErrorHandler {}
 class PageNotFound extends CustomErrorHandler {}
+class ForbiddenError extends CustomErrorHandler {}
 
 /**
  * errorHandler is a utility function.
@@ -35,12 +39,12 @@ class PageNotFound extends CustomErrorHandler {}
 const errorHandler = (error, request, response, next) => {
   if (error instanceof CustomErrorHandler) {
     return response.status(error.getCode()).json({
-      message: error.message,
+      errors: error.errors,
     });
   }
   return response.status(500).json({
-    message: error.message,
+    errors: error.errors,
   });
 };
 
-module.exports = { CustomErrorHandler, BadRequest, PageNotFound, errorHandler };
+module.exports = { CustomErrorHandler, BadRequest, PageNotFound, ForbiddenError, errorHandler };

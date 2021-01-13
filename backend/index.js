@@ -23,13 +23,13 @@ const categoryRoutes = require("./routes/category");
 const productRoutes = require("./routes/product");
 const orderRoutes = require("./routes/order");
 
-// Middleware.
+// Import Middleware.
 const app = express();
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(cors());
 
-// Routes.
+// Use Routes.
 app.use("/api", authRoutes);
 app.use("/api", userRoutes);
 app.use("/api", categoryRoutes);
@@ -51,6 +51,7 @@ app.use((request, response, next) => {
   next(error);
 });
 
+// Use custom error handler.
 app.use(errorHandler);
 
 // Database Connection.
@@ -70,7 +71,7 @@ mongoose
 const port = 4000;
 
 app.get("/", (request, response) => {
-  response.send("Hello World!");
+  response.send("MERN Commerce");
 });
 
 app.listen(port, () => {
