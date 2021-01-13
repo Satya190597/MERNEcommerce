@@ -38,14 +38,14 @@ exports.signUp = (request, response, next) => {
 /**
  * User SignIn Method.
  */
-exports.signIn = (request, response) => {
+exports.signIn = (request, response, next) => {
   // Destructuring request body into email and password.
   const { email, password } = request.body;
 
   // Check for request validation results, setup by express-validator.
   let error = validationResult(request);
   if (!error.isEmpty()) {
-    error = new BadRequest(getErrors(error));
+    error = new BadRequest(getErrors(error.errors));
     return next(error);
   }
 
@@ -65,7 +65,7 @@ exports.signIn = (request, response) => {
     const token = jwt.sign({ userId: user._id }, process.env.TOKEN_SECRET);
 
     // Destructuring user data.
-    const { _id, email, userinfo, name } = user;
+    const { _id, email, userinfo, name, lastname} = user;
 
     // Set token to response cookie.
     response.cookie("token", token, { expire: new Date() + 9999 });
@@ -73,7 +73,7 @@ exports.signIn = (request, response) => {
     // Send Response.
     response.json({
       token: token,
-      data: { _id, email, userinfo, name },
+      data: { _id, email, userinfo, name, lastname },
     });
   });
 };

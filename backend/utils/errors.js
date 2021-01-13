@@ -43,7 +43,7 @@ const errorHandler = (error, request, response, next) => {
     });
   }
   return response.status(500).json({
-    errors: error.errors,
+    errors: error.message,
   });
 };
 

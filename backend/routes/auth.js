@@ -6,7 +6,14 @@ const { check } = require("express-validator");
 const User = require("../models/user");
 
 // Controller Imports.
-const {signIn,signOut,signUp,isAdmin,isAuthenticated,isSignedIn} = require("../controller/auth");
+const {
+  signIn,
+  signOut,
+  signUp,
+  isAdmin,
+  isAuthenticated,
+  isSignedIn,
+} = require("../controller/auth");
 
 const router = express.Router();
 
@@ -57,6 +64,7 @@ router.get("/signout", signOut);
 
 /**
  * TEST ROUTE
+ * USED ONLY FOR TESTING PURPOSE.
  */
 router.post(
   "/test",
