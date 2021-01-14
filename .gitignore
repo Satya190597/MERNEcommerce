@@ -1,6 +1,9 @@
 backend/node_modules
 backend/.env
 
+#vscode configuration files.
+.vscode/
+
 # dependencies
 frontend/node_modules
 frontend/.pnp

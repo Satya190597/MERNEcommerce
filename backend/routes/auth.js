@@ -15,6 +15,7 @@ const {
   isSignedIn,
 } = require("../controller/auth");
 
+// Create Express Router Instance.
 const router = express.Router();
 
 /**
@@ -65,6 +66,7 @@ router.get("/signout", signOut);
 /**
  * TEST ROUTE
  * USED ONLY FOR TESTING PURPOSE.
+ * YOU SHOULD UNABLE TO ACCESS THIS ROUTE.
  */
 router.post(
   "/test",
