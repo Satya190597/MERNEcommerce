@@ -88,15 +88,7 @@ exports.signOut = (request, response) => {
   });
 };
 
-/**
- * Returns - an array of objects with error.msg and error.param properties in it.
- */
-function getErrors(errors) {
-  return errors.map((item) => {
-    const { msg, param } = item;
-    return { msg, param };
-  });
-}
+
 
 /**
  * Is SignedIn Middleware.
