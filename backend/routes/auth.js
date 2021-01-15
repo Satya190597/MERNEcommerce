@@ -27,7 +27,9 @@ router.post(
   [
     check("name", "Name should be at least 3 character long").isLength({
       min: 3,
-    }),
+    })
+    .trim()
+    .escape(),
     check("email", "Invalid Email Id")
       .isEmail()
       .bail()
@@ -37,23 +39,27 @@ router.post(
             return Promise.reject("Email Is Already Present");
           }
         });
-      }),
+      })
+      .trim()
+      .escape()
+      .normalizeEmail(),
     check("password", "Password should be at least 3 character long").isLength({
       min: 3,
-    }),
+    })
+    .escape(),
   ],
   signUp
 );
 
 /**
- * Signin Route.
+ * SignIn Route.
  * Route validation - email and password.
  */
 router.post(
   "/signin",
   [
-    check("email", "Email Is Required").not().isEmpty(),
-    check("password", "Password Filed Is Required.").not().isEmpty(),
+    check("email", "Email Is Required").not().isEmpty().trim().normalizeEmail(),
+    check("password", "Password Filed Is Required.").not().isEmpty().escape(),
   ],
   signIn
 );

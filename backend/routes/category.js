@@ -35,6 +35,8 @@ router.post(
       min:3
     })
     .withMessage("Category Name Must Be Three Character Long.")
+    .trim()
+    .escape()
   ],
   isSignedIn,
   isAuthenticated,
