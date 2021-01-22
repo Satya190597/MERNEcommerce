@@ -66,7 +66,7 @@ exports.signIn = (request, response, next) => {
     const token = jwt.sign({ userId: user._id }, process.env.TOKEN_SECRET);
 
     // Destructuring user data.
-    const { _id, email, userinfo, name, lastname} = user;
+    const { _id, email, userinfo, name, lastname, role} = user;
 
     // Set token to response cookie.
     response.cookie("token", token, { expire: new Date() + 9999 });
@@ -74,7 +74,7 @@ exports.signIn = (request, response, next) => {
     // Send Response.
     response.json({
       token: token,
-      data: { _id, email, userinfo, name, lastname },
+      data: { _id, email, userinfo, name, lastname, role },
     });
   });
 };

@@ -68,7 +68,7 @@ const SignIn = () => {
   const handleRedirect = () => {
     if(success) {
       if(isAuthenticated()) {
-        return <Redirect to="/" />
+        return <Redirect to="/user/dashboard" />
       }
     }
   }
