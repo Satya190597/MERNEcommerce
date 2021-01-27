@@ -39,8 +39,9 @@ const AddProduct = () => {
 
   // Preload Function.
   const preload = () => {
+
+    // Populate Category Dropdown.
     getCategories().then((data) => {
-      console.log(data);
       if (data.error) {
         setValues({ ...values, error: true });
       } else {
@@ -49,10 +50,12 @@ const AddProduct = () => {
     });
   };
 
+
   useEffect(() => {
     preload();
   }, []);
 
+  // Submit Product Details.
   const onSubmit = (event) => {
     event.preventDefault();
     setValues({...values,error:"",loading:true})
@@ -155,7 +158,7 @@ const AddProduct = () => {
       </div>
       <div className="form-group m-3">
         <input
-          onChange={handleChange("quantity")}
+          onChange={handleChange("stock")}
           type="number"
           className="form-control"
           placeholder="Quantity"
