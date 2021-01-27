@@ -4,12 +4,31 @@
   border-radius: 0px;
 }
 
-body {
+
+html, body {
   background: #343a40;
+  height: 100%;
 }
-footer {
-  position: absolute;
-  bottom: 0;
-  right:0;
-  left: 0;
+
+#root {
+  height: 100%;
 }
+
+.flex-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.flex-row-top {
+  flex-grow: 3;
+  flex-shrink: 1;
+}
+.flex-row-bottom {
+  flex-grow: 1;
+  flex-shrink: 1;
+  background-color:blue;
+}
+/* footer {
+  background-color: burlywood;
+  margin-top: -150px;
+} */
