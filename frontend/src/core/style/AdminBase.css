@@ -1,0 +1,15 @@
+.back-red {
+    background-color: brown;
+}
+.side-nav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    z-index: 10;
+}
+.side-nav-close {
+    background-color: rgba(9, 12, 49, 0.267);
+}

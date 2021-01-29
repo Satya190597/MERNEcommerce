@@ -177,11 +177,7 @@ const AddProduct = () => {
   );
 
   return (
-    <Base
-      title="Add Product"
-      description="Create A New Product"
-      className="container bg-info p-4"
-    >
+    <div>
       <Link to="/admin/dashboard" className="btn btn-md text-white bg-dark m-2">
         Admin Home
       </Link>
@@ -192,7 +188,7 @@ const AddProduct = () => {
           {createProductForm()}
         </div>
       </div>
-    </Base>
+    </div>
   );
 };
 

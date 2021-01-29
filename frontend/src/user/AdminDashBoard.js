@@ -1,7 +1,8 @@
 import React from "react";
-import Base from "../core/Base";
+import AdminBase from "../core/AdminBase";
 import { isAuthenticated } from "../auth/helper/index";
 import {Link} from "react-router-dom"
+import "../core/style/AdminBase.css"
 
 const AdminDashboard = () => {
   const {
@@ -10,26 +11,23 @@ const AdminDashboard = () => {
 
   const adminLeftLayout = () => {
     return (
-      <div className="card">
-        <h4 className="card-header bg-dark text-white">Admin Navigation</h4>
-        <ul className="list-group">
-            <li className="list-group-item">
-                <Link to="/admin/create/category" className="nav-link text-success">Create Categories</Link>
+        <ul className="nav row">
+            <li className="nav-item">
+                <Link to="/admin/create/category" className="nav-link text-white">Create Categories</Link>
             </li>
-            <li className="list-group-item">
-                <Link to="/admin/manage/categories" className="nav-link text-success">Manage Categories</Link>
+            <li className="nav-item">
+                <Link to="/admin/manage/categories" className="nav-link text-white">Manage Categories</Link>
             </li>
-            <li className="list-group-item">
-                <Link to="/admin/create/product" className="nav-link text-success">Create Product</Link>
+            <li className="nav-item">
+                <Link to="/admin/create/product" className="nav-link text-white">Create Product</Link>
             </li>
-            <li className="list-group-item">
-                <Link to="/admin/orders" className="nav-link text-success">Manage Order</Link>
+            <li className="nav-item">
+                <Link to="/admin/orders" className="nav-link text-white">Manage Order</Link>
             </li>
-            <li className="list-group-item">
-                <Link to="/admin/products" className="nav-link text-success">Manage Products</Link>
+            <li className="nav-item">
+                <Link to="/admin/products" className="nav-link text-white">Manage Products</Link>
             </li>
         </ul>
-      </div>
     );
   };
   const adminRightLayout = () => {
@@ -51,16 +49,16 @@ const AdminDashboard = () => {
       )
   };
   return (
-    <Base
+    <AdminBase
       title="Admin Dashboard"
       description="Manage All Of Your Product"
       className="container bg-success p-4"
     >
-      <div className="row">
-        <div className="col-3">{adminLeftLayout()}</div>
-        <div className="col-9">{adminRightLayout()}</div>
+      <div className="row m-0" style={{height: "100vh"}}>
+        <div className="col-3" style={{backgroundColor:"#673AB7"}}>{adminLeftLayout()}</div>
+        <div className="col-9" style={{backgroundColor:"#B39DDB"}}>{adminRightLayout()}</div>
       </div>
-    </Base>
+    </AdminBase>
   );
 };
 
