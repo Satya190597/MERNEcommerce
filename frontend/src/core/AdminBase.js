@@ -1,13 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Menu from "./Menu";
 import "./style/AdminBase.css";
+import $ from "jquery";
+import "jquery-ui";
 
 const AdminBase = ({
   title = "Admin Panel",
   description = "",
   children = "<h1>Admin Panel<h1>",
 }) => {
+
+  const [navigationFlag,setNavigationFlag] = useState(false);  
+
+  
+
+  const sideNavClickHandler = () => {
+    alert("Working")
+  }
+
+  const toggleSideNavigation = () => {
+    alert("Hello")
+    setNavigationFlag(!navigationFlag)
+  }
+
   return (
     <div>
       {
@@ -21,7 +37,7 @@ const AdminBase = ({
         <h1 className="text-center text-white">{title}</h1>
         <h2 className="text-center text-white mb-0">{description}</h2>
         <div className="navbar navbar-dark">
-          <button className="navbar-toggler navbar-light">
+          <button className="navbar-toggler navbar-light" onClick={toggleSideNavigation}>
             <span className="fa fa-bars text-white"></span>
           </button>
         </div>
@@ -29,10 +45,10 @@ const AdminBase = ({
       {
         // --- Side Navigation ---
       }
-      <div class="side-nav row col-12">
-        <div class="col-3 bg-primary bg-gradient h-100">
-          <div class="d-flex">
-            <div class="nav flex-column">
+      <div className="side-nav slide-nav-animation row col-12" className={ navigationFlag ? "slide-nav-open-animation" : "slide-nav-close-animation" }>
+        <div className="col-3 bg-primary bg-gradient h-100">
+          <div className="d-flex">
+            <div className="nav flex-column">
               <Link to="/admin/create/category" className="nav-link text-white">
                 Create Categories
               </Link>
@@ -63,6 +79,7 @@ const AdminBase = ({
       }
       <div className="m-0 p-0 back-red">{children}</div>
     </div>
+    
   );
 };
 

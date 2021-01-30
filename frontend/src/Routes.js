@@ -11,6 +11,7 @@ import AddCategory from "./admin/AddCategory";
 import AddProduct from "./admin/AddProduct";
 import ManageCategories from "./admin/ManageCategories";
 
+
 export default function Routes() {
   return (
     <BrowserRouter>
