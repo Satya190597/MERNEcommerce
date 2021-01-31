@@ -10,22 +10,16 @@ const AdminBase = ({
   description = "",
   children = "<h1>Admin Panel<h1>",
 }) => {
-
-  const [navigationFlag,setNavigationFlag] = useState(false);  
-
   
+  const [navigationFlag, setNavigationFlag] = useState(false);
 
-  const sideNavClickHandler = () => {
-    alert("Working")
-  }
-
+  // --- Toggle side navigation. ---
   const toggleSideNavigation = () => {
-    alert("Hello")
-    setNavigationFlag(!navigationFlag)
-  }
+    setNavigationFlag(!navigationFlag);
+  };
 
   return (
-    <div>
+    <div className="root-container">
       {
         // --- Main Navigation ---
       }
@@ -33,20 +27,46 @@ const AdminBase = ({
       {
         // --- Header Section ---
       }
-      <div style={{ backgroundColor: "#673AB7" }} className="p-2 back-red">
-        <h1 className="text-center text-white">{title}</h1>
-        <h2 className="text-center text-white mb-0">{description}</h2>
-        <div className="navbar navbar-dark">
-          <button className="navbar-toggler navbar-light" onClick={toggleSideNavigation}>
-            <span className="fa fa-bars text-white"></span>
-          </button>
+      <div
+        className="pt-3 pb-5 px-3 theme-background"
+      >
+        <div className="d-flex flex-row justify-content-between">
+          {
+            // --- Side drawer toggle button ---
+          }
+          <div className="align-self-start">
+            <button
+              className="btn btn-dark btn-lg rounded"
+              onClick={toggleSideNavigation}
+            >
+              <span className="fa fa-bars text-white"></span>
+            </button>
+          </div>
+          {
+            // --- Title ---
+          }
+          <div className="align-self-center">
+            <h1 className="text-center text-white">{title}</h1>
+          </div>
+          {
+            // --- Right Extend ---
+          }
+          <div></div>
         </div>
+        {
+          // --- Description ---
+        }
+        <h2 className="text-center text-white mb-0">{description}</h2>
       </div>
       {
         // --- Side Navigation ---
       }
-      <div className="side-nav slide-nav-animation row col-12" className={ navigationFlag ? "slide-nav-open-animation" : "slide-nav-close-animation" }>
-        <div className="col-3 bg-primary bg-gradient h-100">
+      <div
+        className={
+          "side-nav row col-12 " + (navigationFlag ? "" : "side-nav-close")
+        }
+      >
+        <div className="col-3 theme-background h-100 " >
           <div className="d-flex">
             <div className="nav flex-column">
               <Link to="/admin/create/category" className="nav-link text-white">
@@ -70,16 +90,15 @@ const AdminBase = ({
             </div>
           </div>
         </div>
-        <div class="col-9 side-nav-close" >
-
-        </div>
+        <div class="col-9 side-nav-extend" onClick={toggleSideNavigation}></div>
       </div>
       {
         // --- Content from props.children ---
       }
-      <div className="m-0 p-0 back-red">{children}</div>
+      <div className="m-0 p-0">
+        {children}
+      </div>
     </div>
-    
   );
 };
 

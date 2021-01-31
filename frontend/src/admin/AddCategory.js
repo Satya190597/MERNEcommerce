@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Base from "../core/Base";
+import AdminBase from "../core/AdminBase";
 import { isAuthenticated } from "../auth/helper/index";
 import { Link } from "react-router-dom";
 import { createCategory } from "./helper/adminapicall";
@@ -70,19 +70,19 @@ const AddCategory = () => {
   };
 
   return (
-    <Base
+    <AdminBase
       title="Create A Category"
       description="Add A New T-Shirt Category"
       className="container bg-info p-4"
     >
-      <div className="row bg-white rounded">
+      <div className="row">
         <div className="col-md-8 offset-md-2">
           {successMessage()}
           {errorMessage()}
           {createCategoryForm()} {goBack()}
         </div>
       </div>
-    </Base>
+    </AdminBase>
   );
 };
 

@@ -1,5 +1,6 @@
-.back-red {
-    background-color: brown;
+.root-container {
+    height: 100%;
+    background-color: #000000;
 }
 .side-nav {
     position: absolute;
@@ -10,31 +11,14 @@
     margin: 0;
     z-index: 10;
 }
+.side-nav-extend {
+    background-color: rgba(12, 1, 11, 0.739);
+}
 
 .side-nav-close {
-    background-color: rgba(9, 12, 49, 0.801);
+    display: none;
 }
 
-.slide-nav-close-animation {
-    animation-name: slide-out; 
-    animation-duration: 1s;
-    animation-fill-mode: forwards;
-    animation-timing-function: ease-out;
-}
-.slide-nav-open-animation {
-    animation-name: slide-in; 
-    animation-duration: 1s;
-    animation-fill-mode: forwards;
-    animation-timing-function: ease-out;
-}
-
-@keyframes slide-out {
-    100% {
-        left: -100%;
-    }
-}
-@keyframes slide-in {
-    100% {
-        left: 100%;
-    }
+.theme-background {
+    background: linear-gradient(to bottom,#c33764, #43055A);
 }
