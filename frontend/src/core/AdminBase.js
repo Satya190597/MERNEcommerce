@@ -10,7 +10,7 @@ const AdminBase = ({
   description = "",
   children = "<h1>Admin Panel<h1>",
 }) => {
-  
+
   const [navigationFlag, setNavigationFlag] = useState(false);
 
   // --- Toggle side navigation. ---
