@@ -48,6 +48,24 @@ export const deleteCategories = (userId,token,categoryId) => {
     });
 };
 
+export const updateCategory = (useId,token,categoryId,categoryName) => {
+  return fetch(`${API}category/${categoryId}/${useId}`,{
+    method: "PUT",
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({name:categoryName})
+  })
+  .then((response) => {
+    return response.json()
+  })
+  .catch((error) => {
+    console.log(error)
+  })
+}
+
 //#region
 
 export const createProduct = (userId, token, product) => {

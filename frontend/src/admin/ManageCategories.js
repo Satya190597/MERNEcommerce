@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import AdminBase from "../core/AdminBase";
-import { getCategories, deleteCategories } from "./helper/adminapicall";
+import {
+  getCategories,
+  deleteCategories,
+  updateCategory,
+} from "./helper/adminapicall";
 import { isAuthenticated } from "../auth/helper/index";
 
 const Categories = () => {
@@ -8,8 +12,9 @@ const Categories = () => {
 
   const [categoryList, setCategoryList] = useState([]);
   const [deleteSuccessFlag, setDeleteSuccessFlag] = useState(false);
+  const [textFieldEnableReference, setTextFieldEnableReference] = useState([]);
+
   useEffect(() => {
-    console.log("*** GETS CALLED ***");
     getAllCategories();
   }, []);
 
@@ -22,7 +27,9 @@ const Categories = () => {
 
   const onChangeHandler = (event, index) => {
     const categoryListTemp = [...categoryList];
-    categoryListTemp[index] = event.target.value;
+    let categoryObject = { ...categoryListTemp[index] };
+    categoryObject.name = event.target.value;
+    categoryListTemp[index] = categoryObject;
     setCategoryList(categoryListTemp);
   };
 
@@ -41,6 +48,17 @@ const Categories = () => {
       });
   };
 
+  const updateCategoryHandler = (categoryId, index) => {
+    const category = categoryList[index].name;
+    updateCategory(auth.data._id, auth.token, categoryId, category)
+      .then((response) => {
+        alert(response);
+        setTextFieldDisable("text_" + index);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   const successMessageForDelete = () => {
     return (
       <div
@@ -52,9 +70,25 @@ const Categories = () => {
     );
   };
 
+  const isTextFieldEnable = (id) => {
+    return textFieldEnableReference.includes(id);
+  };
+
+  const setTextFieldEnable = (id) => {
+    const textFieldEnableArray = [...textFieldEnableReference];
+    textFieldEnableArray.push(id);
+    setTextFieldEnableReference(textFieldEnableArray);
+  };
+  const setTextFieldDisable = (id) => {
+    const textFieldEnableArray = [...textFieldEnableReference];
+    const index = textFieldEnableArray.indexOf(id);
+    if (index > -1) {
+      textFieldEnableArray.splice(index, 1);
+    }
+    setTextFieldEnableReference(textFieldEnableArray);
+  };
+
   const categoryListTemplate = () => {
-    console.log("*** GET CALLED ***");
-    console.log(categoryList);
     return (
       <table class="table text-white">
         <thead>
@@ -67,6 +101,7 @@ const Categories = () => {
         </thead>
         <tbody>
           {categoryList.map((category, index) => {
+            const inputId = "text_" + index;
             return (
               <tr scope="row" key={"category-row-" + index}>
                 <th>{index + 1}</th>
@@ -75,12 +110,37 @@ const Categories = () => {
                     type="text"
                     value={category.name}
                     className="form-control"
+                    disabled={!isTextFieldEnable(inputId)}
                     onChange={(event) => onChangeHandler(event, index)}
                   />
                 </td>
                 <td>
-                  <button className="btn btn-primary bg-gradient rounded">
+                  <button
+                    style={{
+                      display: !isTextFieldEnable(inputId) ? "" : "none",
+                    }}
+                    className="btn btn-primary bg-gradient rounded"
+                    onClick={() => setTextFieldEnable(inputId)}
+                  >
                     Edit
+                  </button>
+                  <button
+                    style={{
+                      display: isTextFieldEnable(inputId) ? "" : "none",
+                    }}
+                    className="btn btn-primary bg-gradient rounded "
+                    onClick={() => updateCategoryHandler(category._id, index)}
+                  >
+                    Update
+                  </button>
+                  <button
+                    style={{
+                      display: isTextFieldEnable(inputId) ? "" : "none",
+                    }}
+                    className="btn btn-primary bg-gradient rounded mx-2"
+                    onClick={() => setTextFieldDisable(inputId)}
+                  >
+                    Cancel
                   </button>
                 </td>
                 <td>
